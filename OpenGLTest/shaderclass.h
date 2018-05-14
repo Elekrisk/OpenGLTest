@@ -4,7 +4,7 @@
 
 #include <string>
 
-
+// Denna klass är nästan helt kopierad från en tutorial
 class Shader
 {
 public:
@@ -16,6 +16,7 @@ public:
 	void setInt(const std::string &name, int value) const;
 	void setFloat(const std::string &name, float value) const;
 
+	// Detta skrev jag själv, så att man ej behöver skriva shader.ID för att få ID:t.
 	operator unsigned int()
 	{
 		return ID;

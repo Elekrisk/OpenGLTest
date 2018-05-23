@@ -20,14 +20,14 @@ class Creature : public Drawable
 class Monster : public Creature
 {
 	// De vapen etc. som monstret bär på
-	Inventory equipment;
+	Inventory m_equipment;
 };
 
 // Spelaren
 class Player : public Creature
 {
 	// Spelarens inventory
-	Inventory inventory;
+	Inventory m_inventory;
 public:
 	// Constructor som anger vilken MessageBus som spelaren ska lyssna på efter events
 	Player(MessageBus &bus);

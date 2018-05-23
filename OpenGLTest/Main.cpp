@@ -34,10 +34,10 @@ bool zoomCallback(MessageBus::EventType et, const std::string &info)
 		switch (info[0])
 		{
 			case '-':
-				camera.zoom /= 1.15f;
+				camera.m_zoom /= 1.15f;
 				break;
 			case '+':
-				camera.zoom *= 1.15f;
+				camera.m_zoom *= 1.15f;
 				break;
 			default:
 				break;
@@ -93,9 +93,9 @@ int main()
 
 	// Skapar en ny spelare, och assignar den till min MessageBus. Detta ska då också abstraheras bort.
 	Player* p = new Player(bus);
-	p->texture = playerTexture;
-	p->posX = 1;
-	p->posY = 1;
+	p->m_texture = playerTexture;
+	p->m_posX = 1;
+	p->m_posY = 1;
 	// Lägger till spelaren till Drawables, som kommer att ritas på banan
 	drawables.push_back(p);
 
@@ -110,13 +110,16 @@ int main()
 	// Ställer in default-kontroller på InputManager. Utan detta skulle inga kontroller fungera.
 	InputManager::setDefaultBindings();
 
+	// skriver ut instruktioner
+	std::cout << "\n\n--Kontroller--\nQ W E\nA   D - Move\nZ X C\n\nKeypad plus - Zoom in\nKeypad minus - Zoom out\nS - Wait\n\n";
+
 	// glfwWindwShouldClose(GFLWwindow*) är en funktion som kollar ifall användaren har begärt att fönstret ska stängas ner, t ex genom att
 	// klicka på krysset uppe till höger på fönstret. Detta kan också begäras av programmet själv.
 	while (!glfwWindowShouldClose(window))
 	{		 
 		// Gör så att kameran följer efter spelaren
-		camera.posX = -p->posX;
-		camera.posY = -p->posY;
+		camera.m_posX = -p->m_posX;
+		camera.m_posY = -p->m_posY;
 
 		// Renderar allting
 		renderer.render(map, drawables, camera, ourShader, window);

@@ -23,7 +23,7 @@ void InputManager::keyCallback(GLFWwindow* window, int key, int scancode, int ac
 		}
 	}
 	// DEBUG
-	std::cout << "\n" << actionIndex << "\n";
+	std::cout << "\n" << actionIndex;
 
 	// Ifall ingen binding hittades för den nedtryckta knappen
 	if (actionIndex == -1)

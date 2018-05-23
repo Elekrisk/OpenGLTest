@@ -10,15 +10,18 @@
 
 UI::UI(MessageBus &messageBus)
 {
+	// Registrerar alla callbacks. Om ett textfält är markerat ska inga events komma igenom oskadda.
 	m_messageBus = &messageBus;
 	messageBus.registerEventCallback(std::bind(&UI::eventCallback, this, std::placeholders::_1, std::placeholders::_2));
 	messageBus.registerKeyboardCallback(std::bind(&UI::keyboardCallback, this, std::placeholders::_1, std::placeholders::_2));
 	messageBus.registerTextCallback(std::bind(&UI::textCallback, this, std::placeholders::_1));
 	messageBus.registerMouseCallback(std::bind(&UI::mouseCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
 	
+	// Skapar en UIGroup som ska representera huvudmenyn. Används ej än.
 	UIGroup mainMenu();
 }
 
+// Alla callbacks returnerar just nu false, och påverkar då ingenting, då UI ej används än.
 bool UI::eventCallback(MessageBus::EventType et, const std::string &info)
 {
 	return false;
@@ -38,7 +41,7 @@ bool UI::mouseCallback(MessageBus::MouseInput mi, int key, int x, int y)
 {
 	return false;
 }
-
+// Returnerar alla element i en grupp.
 std::vector<UIGroup> *UI::getElementGroups()
 {
 	return &m_elementGroups;
@@ -46,6 +49,8 @@ std::vector<UIGroup> *UI::getElementGroups()
 
 
 
+// Jämför z-index när man jämför grupper direkt
+// Jag har kommenterat alla funktioner i header-filen, och gör det bara igen ifall det finns något till att kommentera.
 bool UIGroup::operator<(const UIGroup &group) const
 {
 	return m_zIndex < group.m_zIndex;
@@ -93,6 +98,7 @@ UIElement::UIElement()
 	construct();
 }
 
+// Assignar ett ID till sin textur.
 void UIElement::construct()
 {
 	m_texture = utils::generateTextureId();
@@ -130,6 +136,7 @@ void UIBackground::setImage(const Image &img)
 	m_img = img;
 }
 
+// Ifall datan i bilden finns, generera en ny textur.
 void UIBackground::refresh()
 {
 	if (m_img.getData() != nullptr)
@@ -165,13 +172,19 @@ const Image *UIText::getImage()
 	return &m_imgCompiled;
 }
 
+// Början på en refresh-metod som ska kompilera bilden från en bakgrundsbild plus text.
 void UIText::refresh()
 {
+	// Den mask som text ska skrivas till. Är just nu tom.
 	Image textMask;//ImageConstructor::createTextMask(m_text, 16);
+	// Gör en char-array med samma storlek som bildens data och fyller den med värdet 0
 	unsigned char *hello = new unsigned char[textMask.getWidth() * textMask.getHeight() * 4]{ 0 };
+	// Skapar en ny bild med datan ovanför och lägger in den i m_imgCompiled, vilket är den bild som sedan ska ritas.
 	m_imgCompiled = Image(hello, textMask.getWidth(), textMask.getHeight(), 4);
+	// Skapar den färg som texten ska vara, just nu vit.
 	std::vector<unsigned char> colors{ 255, 255, 255, 255};
 	Color white(colors);
+	// Använder masken för att färga den kompilerade bilden vit.
 	ImageConstructor::composite(&m_imgCompiled, &textMask, white, 0, 0);
 }
 
@@ -214,6 +227,7 @@ void UIImageButton::construct()
 	
 }
 
+// Använder en switch för att returnera rätt bild
 void UIImageButton::setImage(int imageState, const Image &img)
 {
 	switch (imageState)

@@ -3,10 +3,10 @@
 // Funktioner för att få positionen.
 int Drawable::getPosX() const
 {
-	return posX;
+	return m_posX;
 }
 
 int Drawable::getPosY() const
 {
-	return posY;
+	return m_posY;
 }

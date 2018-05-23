@@ -4,7 +4,10 @@
 
 bool MessageBus::send(EventType et, const std::string &info)
 {
+	// Ifall eventet har hanterats
 	bool handled{ false };
+	// Loopar igenom alla event-callbacks, anropar dem och ifall någon returnerar true, avbryt loopen och returnera true.
+	// Annars, returnera false.
 	for (std::function<bool(EventType, const std::string &)> callback : m_eventCallbacks)
 	{
 		handled = callback(et, info);
@@ -18,6 +21,7 @@ bool MessageBus::send(EventType et, const std::string &info)
 
 bool MessageBus::send(KeyboardInput it, int key)
 {
+	// Samma som ovan, fast med knappkoder istället för event
 	bool handled{ false };
 	for (std::function<bool(KeyboardInput, int)> callback : m_keyCallbacks)
 	{
@@ -32,6 +36,7 @@ bool MessageBus::send(KeyboardInput it, int key)
 
 bool MessageBus::send(MouseInput it, int key, float x, float y)
 {
+	// samma, men för musevent
 	bool handled{ false };
 	for (std::function<bool(MouseInput, int, float, float)> callback : m_mouseCallbacks)
 	{
@@ -46,6 +51,7 @@ bool MessageBus::send(MouseInput it, int key, float x, float y)
 
 bool MessageBus::send(unsigned int codepoint)
 {
+	// samma med unicode-karaktär
 	bool handled{ false };
 	for (std::function<bool(unsigned int)> callback : m_textCallbacks)
 	{
@@ -58,6 +64,7 @@ bool MessageBus::send(unsigned int codepoint)
 	return false;
 }
 
+// Alla register----Calback()-funktioner lägger till en callback till respektive vector.
 void MessageBus::registerEventCallback(std::function<bool(EventType, const std::string &)> callback)
 {
 	m_eventCallbacks.push_back(callback);
@@ -82,9 +89,13 @@ void MessageBus::registerTextCallback(std::function<bool(unsigned int codepoint)
 	std::cout << "Text callback added\n";
 }
 
+// Dessa funktioner ska ta bort callbacks, men då det inte finns något enkelt sätt att jämföra std::functions så har jag tagit bort dem.
+/*
 bool MessageBus::deleteEventCallback(std::function<bool(EventType, const std::string &)> callback)
 {
+	// Sätter index till -1, då det kan fungera som en indikator på att ingen callback hittades.
 	int index{ -1 };
+	// 
 	for (int i{ 0 }; i < m_eventCallbacks.size(); ++i)
 	{
 		if (false)
@@ -157,3 +168,4 @@ bool MessageBus::deleteTextCallback(std::function<bool(unsigned int)> callback)
 	}
 	return false;
 }
+*/

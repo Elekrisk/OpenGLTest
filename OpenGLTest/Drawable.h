@@ -6,9 +6,9 @@ class Drawable
 {
 public:
 	// ID för texturen
-	unsigned int texture;
+	unsigned int m_texture;
 	// Position och accessor-funktioner
-	int posX, posY;
+	int m_posX, m_posY;
 	int getPosX() const;
 	int getPosY() const;
 };

@@ -7,7 +7,7 @@
 
 #include "shaderclass.h"
 
-
+// Klass kopierad från en tutorial
 Shader::Shader(const GLchar* vertexPath, const GLchar* fragmentPath)
 {
 	std::string vertexCode;

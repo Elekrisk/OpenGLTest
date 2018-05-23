@@ -10,7 +10,7 @@ Player::Player(MessageBus &bus)
 
 bool Player::eventCallback(MessageBus::EventType et, const std::string &info)
 {
-	std::cout << "TEST\n";
+	//std::cout << "TEST\n";
 	// Just nu reagerar spelaren endast på MOVE-event, och det är dessutom det enda event förutom ZOOM
 	if (et == MessageBus::EVENT_MOVE)
 	{
@@ -18,39 +18,39 @@ bool Player::eventCallback(MessageBus::EventType et, const std::string &info)
 		// Flytta spelaren i den riktning som meddelandet säger.
 		if (info == "NW")
 		{
-			--posX;
-			++posY;
+			--m_posX;
+			++m_posY;
 		}
 		else if (info == "N")
 		{
-			++posY;
+			++m_posY;
 		}
 		else if (info == "NE")
 		{
-			++posY;
-			++posX;
+			++m_posY;
+			++m_posX;
 		}
 		else if (info == "E")
 		{
-			++posX;
+			++m_posX;
 		}
 		else if (info == "SE")
 		{
-			++posX;
-			--posY;
+			++m_posX;
+			--m_posY;
 		}
 		else if (info == "S")
 		{
-			--posY;
+			--m_posY;
 		}
 		else if (info == "SW")
 		{
-			--posY;
-			--posX;
+			--m_posY;
+			--m_posX;
 		}
 		else if (info == "W")
 		{
-			--posX;
+			--m_posX;
 		}
 		return true;
 	}
